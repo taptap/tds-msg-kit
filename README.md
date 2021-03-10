@@ -60,8 +60,11 @@ client.on(TdsClient.ClientEventGo, function (tdsMsg) {
 ```
 
 > TdsClient 为了保证安全，将会对域名进行校验，所以这里需要在第一个参数传递受信域名 
+> 
 > 事件的绑定和移除详见 [EventEmitter](https://github.com/primus/eventemitter3)
+> 
 > 事件名字同 回调函数名 一致，也可如上文所示直接使用 TdsClient.ClientEventGo 等获取 
+> 
 > 预定义的通用 错误Code 可以参考 TdsClient.ErrorCode
 
 #### 服务端使用 < Project >
