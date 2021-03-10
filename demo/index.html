@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      iframe {
+          border: 1px solid black;
+      }
+  </style>
+</head>
+<body>
+<iframe src="//localhost:3000/tap-dm/wait" frameborder="0"></iframe>
+<script src="/js/TdsServer.iife.js"></script>
+<script>
+  var server = new TdsServer('http://localhost:3000', () => document.querySelector('iframe'));
+
+  server.once(TdsServer.ServerEventReady, function (data) {
+    console.log('ready', data);
+    server.go('/data', '111', { projectId: '1', orgId: '1' });
+  })
+
+  server.on(TdsServer.ServerEventError,function (data)  {
+    console.error(`error:`, data);
+  })
+
+  server.on(TdsServer.ServerEventRefreshTicket,function (data) {
+    console.log('refresh', data);
+  })
+
+  server.on(TdsServer.ServerEventSyncPath,function (data) {
+    console.log('syncPath', data);
+  })
+
+  window.server = server;
+</script>
+</body>
+</html>
