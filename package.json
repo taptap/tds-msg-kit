@@ -1,5 +1,5 @@
 {
-  "name": "@taptap/tds-msg",
+  "name": "@taptap-tds/tds-msg",
   "version": "0.2.9",
   "license": "MIT",
   "module": "es/client.js",
