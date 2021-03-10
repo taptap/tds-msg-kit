@@ -11,18 +11,19 @@
 
 ### 认证流程
 
-![认证流程](./docs/process.png)
+![认证流程](https://raw.githubusercontent.com/TapTap/tds-msg-kit/HEAD/docs/process.png)
 
 ### 时序图
 
-![时序图](./docs/sequence.jpg)
+![时序图](https://raw.githubusercontent.com/TapTap/tds-msg-kit/HEAD/docs/sequence.jpg)
 
 ### 安装
 
 1. 通过 npm 方式：
 
 ```bash
-yarn add @taptap/tds-msg
+yarn add @taptap-tds/tds-msg
+npm i @taptap-tds/tds-msg
 ```
 
 2. 下载 release 包使用
@@ -32,7 +33,7 @@ yarn add @taptap/tds-msg
 #### 客户端使用< 第三方使用 >
 
 ```typescript
-import Client from "@taptap/tds-msg/es/client";
+import TdsClient from "@taptap-tds/tds-msg/es/client";
 const client = new TdsClient('http://localhost:3001', {
   // 允许初始化的时候直接绑定
   onGo: function (tdsMsg) {
@@ -66,7 +67,7 @@ client.on(TdsClient.ClientEventGo, function (tdsMsg) {
 #### 服务端使用 < Project >
 
 ```typescript
-import Server from "@taptap/tds-msg/es/server";
+import TdsServer from "@taptap-tds/tds-msg/es/server";
 
 const server = new TdsServer('http://localhost:3000', () => document.querySelector('iframe'), {
     // 允许初始化的时候直接绑定
