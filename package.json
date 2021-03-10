@@ -1,6 +1,6 @@
 {
   "name": "@taptap-tds/tds-msg",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "license": "MIT",
   "module": "es/client.js",
   "main": "dist/TdsClient.umd.js",
