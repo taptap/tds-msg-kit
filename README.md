@@ -22,8 +22,8 @@
 1. 通过 npm 方式：
 
 ```bash
-yarn add @taptap-tds/tds-msg
-npm i @taptap-tds/tds-msg
+yarn add @taptap/tds-msg
+npm i @taptap/tds-msg
 ```
 
 2. 下载 release 包使用
@@ -33,7 +33,7 @@ npm i @taptap-tds/tds-msg
 #### 客户端使用< 第三方使用 >
 
 ```typescript
-import TdsClient from "@taptap-tds/tds-msg/es/client";
+import TdsClient from "@taptap/tds-msg/es/client";
 const client = new TdsClient('http://localhost:3001', {
   // 允许初始化的时候直接绑定
   onGo: function (tdsMsg) {
@@ -70,7 +70,7 @@ client.on(TdsClient.ClientEventGo, function (tdsMsg) {
 #### 服务端使用 < Project >
 
 ```typescript
-import TdsServer from "@taptap-tds/tds-msg/es/server";
+import TdsServer from "@taptap/tds-msg/es/server";
 
 const server = new TdsServer('http://localhost:3000', () => document.querySelector('iframe'), {
     // 允许初始化的时候直接绑定
