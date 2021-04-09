@@ -9,6 +9,7 @@ import {
   TdsMsgRefreshTicket,
   TdsMsgSyncPath,
   ERROR_CODE,
+  isValidOrigin,
 } from './common';
 
 class TdsMsgClient extends TdsMsgSubject {
@@ -22,12 +23,13 @@ class TdsMsgClient extends TdsMsgSubject {
 
   static ClientEventGo = 'onGo';
   static ClientEventMessage = 'onMessage';
+
   /**
    * 通讯方法，不建议暴露
    * @param data
    * @protected
    */
-  protected sendMessage<T = any>(data: TdsMsgReady | TdsMsgError<T>) {
+  protected sendMessage<T = any> (data: TdsMsgReady | TdsMsgError<T>) {
     window.top.postMessage(data, this.tdsOrigin);
   }
 
@@ -36,7 +38,7 @@ class TdsMsgClient extends TdsMsgSubject {
    * @param onGo 当触发前往操作时的回调
    * @param onMessage 当 server 发送自定义 data 事件
    */
-  constructor(
+  constructor (
     private readonly tdsOrigin: string,
     {
       onGo,
@@ -48,7 +50,7 @@ class TdsMsgClient extends TdsMsgSubject {
   ) {
     super((tdsMsgEvent) => {
       let origin = tdsMsgEvent.origin;
-      if (origin !== tdsOrigin) {
+      if (!isValidOrigin(origin, tdsOrigin)) {
         console.warn(`[TdsMsgClient]: 试图在非 Tds 域名下接收数据, origin: ${origin}, 目标 Tds Origin: ${tdsOrigin}`);
         return;
       }
@@ -91,7 +93,7 @@ class TdsMsgClient extends TdsMsgSubject {
   /**
    * 向 DC 告知自己已经准备完成
    */
-  setReady() {
+  setReady () {
     this.ready = true;
     this.sendMessage(new TdsMsgClient.ClientReady());
   }
@@ -101,7 +103,7 @@ class TdsMsgClient extends TdsMsgSubject {
    * @param code 错误编码，需要与 DC 约定
    * @param payload 携带的错误信息，可选
    */
-  setError(code: number, payload = {}) {
+  setError (code: number, payload = {}) {
     this.sendMessage(new TdsMsgClient.ClientError(code, payload));
   }
 
@@ -109,7 +111,7 @@ class TdsMsgClient extends TdsMsgSubject {
    * 用于主动向服务端交换数据使用
    * @param payload
    */
-  sendMsg(payload: any) {
+  sendMsg (payload: any) {
     this.sendMessage(new TdsMsgClient.ClientMsg(payload));
   }
 
@@ -117,14 +119,14 @@ class TdsMsgClient extends TdsMsgSubject {
    * 告诉服务端需要同步的路径
    * @param path
    */
-  syncPath(path: string) {
+  syncPath (path: string) {
     this.sendMessage(new TdsMsgClient.ClientSyncPath({ path }));
   }
 
   /**
    * 用于主动要求服务端更新 ticket 使用
    */
-  refreshTicket() {
+  refreshTicket () {
     this.sendMessage(new TdsMsgClient.ClientRefreshTicket());
   }
 }
