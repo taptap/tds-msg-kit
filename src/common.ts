@@ -153,6 +153,7 @@ export function getOriginRegExp(tdsOrigin) {
 
 export function isValidOrigin(origin: string, tdsOrigin: string) {
   if (tdsOrigin.indexOf('*') > -1) {
+    console.warn('[TdsMsg]: 警告，正在使用通配符校验域名，请勿在生产模式使用通配符校验域名。')
     return getOriginRegExp(tdsOrigin).test(origin);
   }
   return origin === tdsOrigin;
