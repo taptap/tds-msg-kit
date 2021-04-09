@@ -1,4 +1,13 @@
-import { TDS_MESSAGE_TYPE, TdsCallback, TdsMsg, TdsMsgGo, TdsMsgMessage, TdsMsgSubject, ERROR_CODE } from './common';
+import {
+  TDS_MESSAGE_TYPE,
+  TdsCallback,
+  TdsMsg,
+  TdsMsgGo,
+  TdsMsgMessage,
+  TdsMsgSubject,
+  ERROR_CODE,
+  isValidOrigin,
+} from './common';
 
 class TdsMsgServer extends TdsMsgSubject {
   static TdsMsgGo = TdsMsgGo;
@@ -40,7 +49,7 @@ class TdsMsgServer extends TdsMsgSubject {
     } = {},
   ) {
     super((event) => {
-      if (host === event.origin) {
+      if (isValidOrigin(event.origin, host)) {
         const msg = event.data;
         this.emit(TdsMsgServer.ServerEventAll, msg)
         switch (msg.type) {

@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+
 export interface TdsMsg<P = any> {
   type: TDS_MESSAGE_TYPE;
   /**
@@ -29,6 +30,7 @@ export enum ERROR_CODE {
 }
 
 export type TdsCallback = (tdsMsg: TdsMsg) => void;
+
 /**
  * Tds 消息类型
  */
@@ -41,14 +43,30 @@ export enum TDS_MESSAGE_TYPE {
   TAP_MESSAGE_TYPE_SYNC_PATH = 'tdsMsg.syncPath',
 }
 
+interface TdsMessageEvent<T> extends MessageEvent {
+  readonly data: T;
+}
+
 /**
  * TdsMsg 服务基础类
  */
 export class TdsMsgSubject extends EventEmitter {
-  constructor(protected readonly fn: (event: MessageEvent<TdsMsg>) => void) {
+  debug: boolean = false;
+
+  constructor(protected readonly fn: (event: TdsMessageEvent<TdsMsg>) => void) {
     super();
-    window.addEventListener('message', this.fn, false);
+    window.addEventListener(
+      'message',
+      (arg) => {
+        if (this.debug) {
+          window.console.log(`[TdsMsg]<${arg.origin}>:`, arg.data);
+        }
+        this.fn(arg);
+      },
+      false,
+    );
   }
+
   destroy() {
     window.removeEventListener('message', this.fn);
   }
@@ -75,6 +93,7 @@ export class TdsMsgRefreshTicket extends TdsMsgBase implements TdsMsg {
  */
 export class TdsMsgSyncPath extends TdsMsgBase implements TdsMsg<{ path: string }> {
   type = TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_SYNC_PATH;
+
   constructor(public payload: { path }) {
     super();
   }
@@ -94,6 +113,7 @@ export class TdsMsgReady extends TdsMsgBase implements TdsMsg {
  */
 export class TdsMsgGo<T = any> extends TdsMsgBase implements TdsMsg<T> {
   type = TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_GO;
+
   constructor(public path: string, public ticket: string, public payload: T) {
     super();
   }
@@ -104,6 +124,7 @@ export class TdsMsgGo<T = any> extends TdsMsgBase implements TdsMsg<T> {
  */
 export class TdsMsgMessage<T> extends TdsMsgBase implements TdsMsg<T> {
   type = TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_MESSAGE;
+
   constructor(public payload: T) {
     super();
   }
@@ -122,4 +143,18 @@ export class TdsMsgError<T> extends TdsMsgBase implements TdsMsg<T> {
   constructor(public code: number, public payload?: T) {
     super();
   }
+}
+
+export function getOriginRegExp(tdsOrigin) {
+  // * 转化为通配符，其余正则相关的符号全部转译
+  const regexpStr = tdsOrigin.replace(/([.-\[\]()?\\^$=:])/g, '\\$1').replace(/\*/g, '.*?');
+  return new RegExp(`^${regexpStr}$`);
+}
+
+export function isValidOrigin(origin: string, tdsOrigin: string) {
+  if (tdsOrigin.indexOf('*') > -1) {
+    console.warn('[TdsMsg]: 警告，正在使用通配符校验域名，请勿在生产模式使用通配符校验域名。')
+    return getOriginRegExp(tdsOrigin).test(origin);
+  }
+  return origin === tdsOrigin;
 }

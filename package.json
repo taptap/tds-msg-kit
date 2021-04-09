@@ -8,7 +8,7 @@
     "clean": "rm -rf es dist types",
     "build": "rollup -c rollup.config.js",
     "dev": "node dev.js",
-    "test": "echo 1"
+    "test": "jest"
   },
   "files": [
     "demo",
@@ -29,12 +29,15 @@
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/jest": "^26.0.22",
     "eventemitter3": "^4.0.7",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "rollup": "^2.38.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
+    "ts-jest": "^26.5.4",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   }
