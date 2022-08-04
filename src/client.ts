@@ -30,7 +30,7 @@ class TdsMsgClient extends TdsMsgSubject {
    * @protected
    */
   protected sendMessage<T = any> (data: TdsMsgReady | TdsMsgError<T>) {
-    window.top.postMessage(data, this.tdsOrigin);
+    window.parent.postMessage(data, this.tdsOrigin);
   }
 
   /**
