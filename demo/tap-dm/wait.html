@@ -12,8 +12,9 @@
 <script src="/js/TdsClient.iife.js"></script>
 <script>
     var client = new TdsClient('http://localhost:3001')
+    client.debug = true
     client.on(TdsClient.ClientEventGo, function (tdsMsg) {
-        console.log('go', tdsMsg.path, tdsMsg)
+        console.log('[client] go', tdsMsg.path, tdsMsg)
     })
 
     client.setReady();
@@ -21,8 +22,9 @@
         message: '错误情况100'
     });
     client.refreshTicket();
-    client.syncPath({ path: '/' });
+    client.syncPath('/');
     // client.destroy();
+    window.client = client;
 </script>
 </body>
 </html>

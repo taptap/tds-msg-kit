@@ -6,36 +6,110 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
   <style>
-      iframe {
-          border: 1px solid black;
-      }
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .pure-form {
+      padding: 4px;
+    }
+    .address {
+      display: flex;
+    }
+    .address input {
+      flex: 1;
+      margin-right: 4px;
+    }
+    .address button {
+      font-size: 80%;
+    }
+    .ticket {
+      margin-top: 4px;
+      font-size: 65%;
+    }
+    iframe {
+        border: 1px solid lightgrey;
+        border-width: 1px 0;
+        flex: 1
+    }
   </style>
 </head>
 <body>
-<iframe src="//localhost:3000/tap-dm/wait" frameborder="0"></iframe>
 <script src="/js/TdsServer.iife.js"></script>
-<script>
-  var server = new TdsServer('http://localhost:3000', () => document.querySelector('iframe'));
+<script type="module">
+  import { html, render, useState, useMemo, useEffect, useRef, useCallback } from 'https://unpkg.com/htm/preact/standalone.module.js'
+  
+  function App (props) {
+    const [origin, setOrigin] = useState('http://localhost:3000')
+    const [path, setPath] = useState('/tap-dm/wait')
+    const url = origin + path
+    const setUrl = useCallback((url) => {
+      const u = new URL(url);
+      setOrigin(u.origin)
+      setPath(u.pathname + u.search)
+    }, [])
+    const [showTicket, setShowTicket] = useState(false)
+    const [ticket, setTicket] = useState('')
+    const iframe = useRef()
+    const iframeSrc = useMemo(() => url, [origin])
+    const serverRef = useRef()
+    useEffect(() => {
+      console.log('origin changed', origin)
 
-  server.once(TdsServer.ServerEventReady, function (data) {
-    console.log('ready', data);
-    server.go('/data', '111', { projectId: '1', orgId: '1' });
-  })
+      var server = new TdsServer(origin, () => {return iframe.current});
+      server.debug = true
+      const handleSyncMsg = (msg) => {
+        if (msg.payload.path) {
+          setPath(msg.payload.path)
+        }
+      }
+      server.on(TdsServer.ServerEventSyncPath, handleSyncMsg)
+      // backward compatible
+      server.on(TdsServer.ServerEventMessage, handleSyncMsg)
+      serverRef.current = server;
 
-  server.on(TdsServer.ServerEventError,function (data)  {
-    console.error(`error:`, data);
-  })
+      // for debug
+      window.server = server;
 
-  server.on(TdsServer.ServerEventRefreshTicket,function (data) {
-    console.log('refresh', data);
-  })
-
-  server.on(TdsServer.ServerEventSyncPath,function (data) {
-    console.log('syncPath', data);
-  })
-
-  window.server = server;
+      return () => {
+        server.off(TdsServer.ServerEventSyncPath, handleSyncMsg)
+        server.off(TdsServer.ServerEventMessage, handleSyncMsg)
+        server.destroy()
+        serverRef.current = null
+      }
+    }, [origin])
+    useEffect(() => {
+      console.log(serverRef.current?.ready, origin, path, ticket)
+      if (!serverRef.current) return;
+      if (serverRef.current.ready) {
+        console.log('path changed', path)
+        serverRef.current.go(path, ticket)
+      } else {
+        serverRef.current.once(TdsServer.ServerEventReady, function (data) {
+          console.log('path changed', path)
+          serverRef.current.go(path, ticket);
+        })
+      }
+    }, [origin, path, ticket])
+    return html`
+        <div class="pure-form">
+          <div class="address">
+            <input value=${url} onChange=${event => setUrl(event.target.value)}/>
+            <button class="pure-button" onClick=${() => setShowTicket(s => !s)}>🔑</button>
+          </div>
+          ${showTicket && html`<div>
+              <input class="pure-input-1 ticket" value=${ticket} onChange=${event => setTicket(event.target.value)} placeholder="Ticket"/>
+            </div>
+          `}
+        </div>
+        <iframe src=${iframeSrc} key=${origin} frameborder="0" ref=${iframe}/>
+    `;
+  }
+  
+  render(html`<${App}/>`, document.body);
 </script>
 </body>
 </html>
