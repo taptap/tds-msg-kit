@@ -11,7 +11,7 @@ import {
 
 class TdsMsgServer extends TdsMsgSubject {
   static TdsMsgGo = TdsMsgGo;
-  private ready = false;
+  public ready = false;
 
   static ERROR_CODE = ERROR_CODE;
 
