@@ -64,28 +64,7 @@ function createBrowser(name, windowName) {
   ];
 }
 
-function buildEs(name) {
-  return {
-    input: `src/${name}.ts`,
-    external: [(id) => id.includes('@babel/runtime'), 'eventemitter3'],
-    plugins: plugins({
-      outDir: 'es',
-      declaration: true,
-      declarationDir: 'es',
-    }),
-    output: [
-      {
-        format: 'esm',
-        sourcemap: true,
-        file: `es/${name}.js`,
-      },
-    ],
-  };
-}
 module.exports = [
-  buildEs('client'),
-  buildEs('server'),
-  buildEs('common'),
   ...createBrowser('client', 'TdsClient'),
   ...createBrowser('server', 'TdsServer'),
 ];
