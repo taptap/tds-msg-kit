@@ -92,10 +92,11 @@ class TdsMsgClient extends TdsMsgSubject {
 
   /**
    * 向 DC 告知自己已经准备完成
+   * @param currentOrigin 当前域名，通常情况下无需指定，仅当 server 使用通配符的时候需要 client 向其汇报准确的 origin
    */
-  setReady () {
+  setReady (currentOrigin?: string) {
     this.ready = true;
-    this.sendMessage(new TdsMsgClient.ClientReady());
+    this.sendMessage(new TdsMsgClient.ClientReady(currentOrigin));
   }
 
   /**
