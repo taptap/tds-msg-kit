@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import memoizeOne from 'memoize-one';
 
 export interface TdsMsg<P = any> {
   type: TDS_MESSAGE_TYPE;
@@ -148,16 +149,17 @@ export class TdsMsgError<T> extends TdsMsgBase implements TdsMsg<T> {
   }
 }
 
-export function getOriginRegExp(tdsOrigin) {
+export function getOriginRegExp(tdsOrigin: string) {
   // * 转化为通配符，其余正则相关的符号全部转译
   const regexpStr = tdsOrigin.replace(/([.\-\[\]()?\\^$=:])/g, '\\$1').replace(/\*/g, '.*?');
   return new RegExp(`^${regexpStr}$`);
 }
 
+const testWildcardOrigin = memoizeOne((origin: string, tdsOrigin: string) => getOriginRegExp(tdsOrigin).test(origin));
+
 export function isValidOrigin(origin: string, tdsOrigin: string) {
   if (tdsOrigin.indexOf('*') > -1) {
-    console.warn('[TdsMsg]: 警告，正在使用通配符校验域名，请勿在生产模式使用通配符校验域名。')
-    return getOriginRegExp(tdsOrigin).test(origin);
+    return testWildcardOrigin(origin, tdsOrigin);
   }
   return origin === tdsOrigin;
 }
