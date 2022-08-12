@@ -41,6 +41,9 @@
 <script src="/js/TdsServer.iife.js"></script>
 <script type="module">
   import { html, render, useState, useMemo, useEffect, useRef, useCallback } from 'https://unpkg.com/htm/preact/standalone.module.js'
+
+  const params = new URLSearchParams(location.search);
+  const allowedOrigin = params.get('allowed-origin')
   
   function App (props) {
     const [origin, setOrigin] = useState('http://localhost:3000')
@@ -59,7 +62,7 @@
     useEffect(() => {
       console.log('origin changed', origin)
 
-      var server = new TdsServer(origin, () => {return iframe.current});
+      var server = new TdsServer(allowedOrigin ?? origin, () => {return iframe.current});
       server.debug = true
       const handleSyncMsg = (msg) => {
         if (msg.payload.path) {
