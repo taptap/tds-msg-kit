@@ -67,7 +67,7 @@ function createBrowser(name, windowName) {
 function buildEs(name) {
   return {
     input: `src/${name}.ts`,
-    external: [(id) => id.includes('@babel/runtime')],
+    external: [(id) => id.includes('@babel/runtime'), 'eventemitter3'],
     plugins: plugins({
       outDir: 'es',
       declaration: true,
