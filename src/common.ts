@@ -147,7 +147,7 @@ export class TdsMsgError<T> extends TdsMsgBase implements TdsMsg<T> {
 
 export function getOriginRegExp(tdsOrigin) {
   // * 转化为通配符，其余正则相关的符号全部转译
-  const regexpStr = tdsOrigin.replace(/([.-\[\]()?\\^$=:])/g, '\\$1').replace(/\*/g, '.*?');
+  const regexpStr = tdsOrigin.replace(/([.\-\[\]()?\\^$=:])/g, '\\$1').replace(/\*/g, '.*?');
   return new RegExp(`^${regexpStr}$`);
 }
 
