@@ -15,7 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES5",
-    "outDir": "lib",
+    "outDir": "es",
     "declaration": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
