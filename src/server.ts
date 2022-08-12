@@ -12,6 +12,7 @@ import {
 class TdsMsgServer extends TdsMsgSubject {
   static TdsMsgGo = TdsMsgGo;
   public ready = false;
+  private targetOrigin?: string;
 
   static ERROR_CODE = ERROR_CODE;
 
@@ -51,11 +52,16 @@ class TdsMsgServer extends TdsMsgSubject {
     super((event) => {
       if (isValidOrigin(event.origin, host)) {
         const msg = event.data;
-        this.emit(TdsMsgServer.ServerEventAll, msg)
+        this.emit(TdsMsgServer.ServerEventAll, msg);
         switch (msg.type) {
           case TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_READY:
             console.log('[TdsMsgServer]: TapMsgClient 准备就绪');
             this.ready = true;
+            if (msg['origin']) {
+              if (isValidOrigin(msg['origin'], host)) {
+                this.targetOrigin = msg['origin'];
+              }
+            }
             this.emit(TdsMsgServer.ServerEventReady, msg);
             return;
           case TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_MESSAGE:
@@ -108,7 +114,7 @@ class TdsMsgServer extends TdsMsgSubject {
   protected sendMessage(msg: TdsMsg) {
     const iframe = this.iframe();
     if (iframe) {
-      iframe.contentWindow?.postMessage?.(msg, this.host);
+      iframe.contentWindow?.postMessage?.(msg, this.targetOrigin ?? this.host);
     }
   }
 

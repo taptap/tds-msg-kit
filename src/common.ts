@@ -104,6 +104,9 @@ export class TdsMsgSyncPath extends TdsMsgBase implements TdsMsg<{ path: string 
  * 无附加参数
  */
 export class TdsMsgReady extends TdsMsgBase implements TdsMsg {
+  constructor(public origin?: string) {
+    super();
+  }
   type = TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_READY;
 }
 
