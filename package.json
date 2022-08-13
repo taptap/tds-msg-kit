@@ -5,6 +5,8 @@
   "module": "es/index.js",
   "main": "dist/TdsClient.umd.js",
   "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "clean": "rm -rf es dist types",
     "build": "tsc && rollup -c rollup.config.js",
     "dev": "node dev.js",
@@ -27,6 +29,7 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@types/jest": "^26.0.22",
+    "conventional-changelog-cli": "^2.2.2",
     "express": "^4.17.1",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
