@@ -1,3 +1,23 @@
+# [0.3.0](https://github.com/TapTap/tds-msg-kit/compare/v0.2.15...v0.3.0) (2022-08-13)
+
+
+### Bug Fixes
+
+* fix incorrect origin port check ([a3f9074](https://github.com/TapTap/tds-msg-kit/commit/a3f9074f5e8c7a4231d170d196bae0a92c640255))
+
+
+### Features
+
+* **server:** mark #ready public ([7c8e28b](https://github.com/TapTap/tds-msg-kit/commit/7c8e28bb5a1b851bbb238fbd19f5efc4bd4d7a1f))
+* use the ready msg to sync the precise client origin ([30c5d03](https://github.com/TapTap/tds-msg-kit/commit/30c5d03c1be0a7da3731da315e63ede564af98f4))
+
+
+### Performance Improvements
+
+* memorize the regexp test result ([51b5d3c](https://github.com/TapTap/tds-msg-kit/commit/51b5d3c607926fc188576078da9bd2252e1679ab))
+
+
+
 ## [0.2.15](https://github.com/TapTap/tds-msg-kit/compare/v0.2.13...v0.2.15) (2022-08-05)
 
 
