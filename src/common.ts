@@ -30,6 +30,14 @@ export enum ERROR_CODE {
   PERMISSION_DENIED = 101,
 }
 
+export enum GO_ACTION_TYPE {
+  PUSH = 'PUSH',
+  REPLACE = 'REPLACE'
+}
+
+export type SyncPathPayload = { path: string; options?: { action: GO_ACTION_TYPE } }
+
+
 export type TdsCallback = (tdsMsg: TdsMsg) => void;
 
 /**
@@ -92,10 +100,10 @@ export class TdsMsgRefreshTicket extends TdsMsgBase implements TdsMsg {
  * TdsMsg client 用于要求 server 同步路由使用
  * 需要传递 path 信息
  */
-export class TdsMsgSyncPath extends TdsMsgBase implements TdsMsg<{ path: string }> {
+export class TdsMsgSyncPath extends TdsMsgBase implements TdsMsg<SyncPathPayload> {
   type = TDS_MESSAGE_TYPE.TAP_MESSAGE_TYPE_SYNC_PATH;
 
-  constructor(public payload: { path }) {
+  constructor(public payload: SyncPathPayload) {
     super();
   }
 }
