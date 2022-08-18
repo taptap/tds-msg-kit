@@ -9,7 +9,7 @@ import {
   TdsMsgRefreshTicket,
   TdsMsgSyncPath,
   ERROR_CODE,
-  isValidOrigin,
+  isValidOrigin, SyncPathPayload,
 } from './common';
 
 class TdsMsgClient extends TdsMsgSubject {
@@ -119,9 +119,10 @@ class TdsMsgClient extends TdsMsgSubject {
   /**
    * 告诉服务端需要同步的路径
    * @param path
+   * @param options
    */
-  syncPath (path: string) {
-    this.sendMessage(new TdsMsgClient.ClientSyncPath({ path }));
+  syncPath (path: string, options?: SyncPathPayload['options']) {
+    this.sendMessage(new TdsMsgClient.ClientSyncPath({ path, options }));
   }
 
   /**
