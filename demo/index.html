@@ -83,7 +83,7 @@
         server.destroy()
         serverRef.current = null
       }
-    }, [origin])
+    }, [allowedOrigin ?? origin])
     useEffect(() => {
       console.log(serverRef.current?.ready, origin, path, ticket)
       if (!serverRef.current) return;
