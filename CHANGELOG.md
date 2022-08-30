@@ -1,3 +1,31 @@
+## [0.3.1](https://github.com/TapTap/tds-msg-kit/compare/v0.2.12...v0.3.1) (2022-08-30)
+
+
+### Bug Fixes
+
+* 重新更换为 taptap 的 scope ([201a4eb](https://github.com/TapTap/tds-msg-kit/commit/201a4eb6016da6b68965128e9604cf2b3a6a86cf))
+* client 改为向 parent  发送消息以便嵌套使用 ([5de6e15](https://github.com/TapTap/tds-msg-kit/commit/5de6e152f76343b28e14004799bbcc0658386cdc))
+* client syncPath add options params ([aa8cf40](https://github.com/TapTap/tds-msg-kit/commit/aa8cf4070a2355cfe11ae6d55c497ab28b4021e9))
+* fix incorrect origin port check ([a3f9074](https://github.com/TapTap/tds-msg-kit/commit/a3f9074f5e8c7a4231d170d196bae0a92c640255))
+* format code ([db84151](https://github.com/TapTap/tds-msg-kit/commit/db84151ae7560775260b9b8f36c67bbe95aac883))
+* modify action type name ([0abaa95](https://github.com/TapTap/tds-msg-kit/commit/0abaa95cfddf56f0ea75b665c7f4c6d8fd785240))
+
+
+### Features
+
+* 添加 debug 添加 origin 通配符操作 ([2c087a5](https://github.com/TapTap/tds-msg-kit/commit/2c087a537a715275c88b58a1951603aa3278a541))
+* 新增 oAuth 模版 ([7c12b41](https://github.com/TapTap/tds-msg-kit/commit/7c12b41df9b094fa274a27031a8846028ebd840d))
+* add optional params to SyncPath paylod.resolve [#11](https://github.com/TapTap/tds-msg-kit/issues/11) ([9583d11](https://github.com/TapTap/tds-msg-kit/commit/9583d11b05dceaa9e0b58b473262f0155976c559))
+* **server:** mark #ready public ([7c8e28b](https://github.com/TapTap/tds-msg-kit/commit/7c8e28bb5a1b851bbb238fbd19f5efc4bd4d7a1f))
+* use the ready msg to sync the precise client origin ([30c5d03](https://github.com/TapTap/tds-msg-kit/commit/30c5d03c1be0a7da3731da315e63ede564af98f4))
+
+
+### Performance Improvements
+
+* memorize the regexp test result ([51b5d3c](https://github.com/TapTap/tds-msg-kit/commit/51b5d3c607926fc188576078da9bd2252e1679ab))
+
+
+
 # [0.3.0](https://github.com/TapTap/tds-msg-kit/compare/v0.2.15...v0.3.0) (2022-08-13)
 
 
