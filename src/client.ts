@@ -9,7 +9,8 @@ import {
   TdsMsgRefreshTicket,
   TdsMsgSyncPath,
   ERROR_CODE,
-  isValidOrigin, SyncPathPayload,
+  isValidOrigin,
+  SyncPathPayload,
 } from './common';
 
 class TdsMsgClient extends TdsMsgSubject {
