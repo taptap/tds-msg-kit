@@ -30,12 +30,12 @@ export enum ERROR_CODE {
   PERMISSION_DENIED = 101,
 }
 
-export enum GO_ACTION_TYPE {
+export enum ACTION_TYPE {
   PUSH = 'PUSH',
   REPLACE = 'REPLACE'
 }
 
-export type SyncPathPayload = { path: string; options?: { action: GO_ACTION_TYPE } }
+export type SyncPathPayload = { path: string; options?: { action: ACTION_TYPE } }
 
 
 export type TdsCallback = (tdsMsg: TdsMsg) => void;
