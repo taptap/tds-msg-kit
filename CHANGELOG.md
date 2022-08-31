@@ -1,3 +1,19 @@
+## [0.3.1](https://github.com/TapTap/tds-msg-kit/compare/v0.3.0...v0.3.1) (2022-08-31)
+
+
+### Bug Fixes
+
+* client syncPath add options params ([aa8cf40](https://github.com/TapTap/tds-msg-kit/commit/aa8cf4070a2355cfe11ae6d55c497ab28b4021e9))
+* format code ([db84151](https://github.com/TapTap/tds-msg-kit/commit/db84151ae7560775260b9b8f36c67bbe95aac883))
+* modify action type name ([0abaa95](https://github.com/TapTap/tds-msg-kit/commit/0abaa95cfddf56f0ea75b665c7f4c6d8fd785240))
+
+
+### Features
+
+* add optional params to SyncPath paylod.resolve [#11](https://github.com/TapTap/tds-msg-kit/issues/11) ([9583d11](https://github.com/TapTap/tds-msg-kit/commit/9583d11b05dceaa9e0b58b473262f0155976c559))
+
+
+
 # [0.3.0](https://github.com/TapTap/tds-msg-kit/compare/v0.2.15...v0.3.0) (2022-08-13)
 
 
