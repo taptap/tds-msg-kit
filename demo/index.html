@@ -44,10 +44,12 @@
 
   const params = new URLSearchParams(location.search);
   const allowedOrigin = params.get('allowed-origin')
-  
+  const initialURL = new URL(params.get('url') ?? 'http://localhost:3000/tap-dm/wait')
+  const initialPath = `${initialURL.pathname}${initialURL.search}${initialURL.hash}`
+
   function App (props) {
-    const [origin, setOrigin] = useState('http://localhost:3000')
-    const [path, setPath] = useState('/tap-dm/wait')
+    const [origin, setOrigin] = useState(initialURL.origin)
+    const [path, setPath] = useState(initialPath)
     const url = origin + path
     const setUrl = useCallback((url) => {
       const u = new URL(url);
