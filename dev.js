@@ -1,5 +1,11 @@
 const express = require('express');
 const fs = require('fs');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+
+const argv = yargs(hideBin(process.argv)).argv;
+const { p: port = 3000 } = argv;
+
 const appClient = express();
 
 appClient.use('/js', express.static('dist'));
@@ -10,8 +16,8 @@ appClient.get('/tap-dm/wait', function (req, res) {
   res.send(content.toString());
 });
 
-appClient.listen(3000, function () {
-  console.log('Example Client listening on port 3000!');
+appClient.listen(port, function () {
+  console.log(`Example Client listening on port ${port}!`);
 });
 
 const appServer = express();
@@ -21,6 +27,6 @@ appServer.get('/', function (req, res) {
   res.set('Content-Type', 'text/html');
   res.send(content.toString());
 });
-appServer.listen(3001, function () {
-  console.log('Example server listening on port 3001!');
+appServer.listen(port + 1, function () {
+  console.log(`Example server listening on port ${port + 1}!`);
 });
